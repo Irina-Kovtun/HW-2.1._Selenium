@@ -1,5 +1,6 @@
 package netology.ru.web;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,20 +19,20 @@ public class CallbackTest {
     private WebDriver driver;
 
 //    System.setProperty("webdriver.chrome.driver", "/pathTo/chromedriver);
-
     @BeforeAll
     //running the driver
     static void setUpAll() {
-        System.setProperty("webdriver.chrome.driver", ".\\driver\\win\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
+//        System.setProperty("webdriver.chrome.driver", ".\\driver\\win\\chromedriver.exe");
     }
 
     @BeforeEach
         //creating driver object
     void setUp() {
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
-        options.setHeadless(true);
-        options.addArguments("window-size=1800x900");
+//        options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
+//        options.setHeadless(true);
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
     }
 
