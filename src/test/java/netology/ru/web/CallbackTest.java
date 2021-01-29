@@ -43,13 +43,13 @@ public class CallbackTest {
     }
 
     @Test
-    void shouldTestV1() {
+    void shouldTestHappyPath() {
         //running the form at URL
         driver.get("http://localhost:9999");
         //entering first name
-        driver.findElement(By.cssSelector("[type='text']")).sendKeys("Василий");
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Василий Чапаев");
         //entering phone
-        driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+77777777777");
+        driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+74956783423");
         //clicking checkbox
         driver.findElement(By.className("checkbox__box")).click();
         //clicking sign up
