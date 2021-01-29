@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CallbackTest {
     private WebDriver driver;
 
+//    System.setProperty("webdriver.chrome.driver", "/pathTo/chromedriver);
+
     @BeforeAll
     //running the driver
     static void setUpAll() {
@@ -26,7 +28,11 @@ public class CallbackTest {
     @BeforeEach
         //creating driver object
     void setUp() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
+        options.setHeadless(true);
+        options.addArguments("window-size=1800x900");
+        driver = new ChromeDriver(options);
     }
 
     @AfterEach
@@ -48,7 +54,7 @@ public class CallbackTest {
         //clicking sign up
         driver.findElement(By.tagName("button")).click();
         //getting message after the form is submitted
-        String actualText  = driver.findElement(By.cssSelector("[data-test-id]")).getText();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id]")).getText();
         //assering to expectations
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", actualText.trim());
     }
