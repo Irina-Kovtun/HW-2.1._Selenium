@@ -20,7 +20,7 @@ public class CallbackTest {
     @BeforeAll
     //running the driver
     static void setUpAll() {
-        System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", ".\\driver\\win\\chromedriver.exe");
     }
 
     @BeforeEach
@@ -40,11 +40,11 @@ public class CallbackTest {
         //running the form at URL
         driver.get("http://localhost:9999");
         //entering first name
-        driver.findElement(By.cssSelector("[data-test-id =name]")).sendKeys("Василий");
+        driver.findElement(By.cssSelector("[type='text']")).sendKeys("Василий");
         //entering phone
-        driver.findElement(By.cssSelector("[data-test-id =phone]")).sendKeys("+77777777777");
+        driver.findElement(By.cssSelector("[type='tel']")).sendKeys("+77777777777");
         //clicking checkbox
-        driver.findElement(By.cssSelector("[data-test-id =agreement]")).click();
+        driver.findElement(By.className("checkbox__box")).click();
         //clicking sign up
         driver.findElement(By.tagName("button")).click();
         //getting message after the form is submitted
