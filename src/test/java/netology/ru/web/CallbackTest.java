@@ -36,6 +36,7 @@ public class CallbackTest {
 //        options.setHeadless(true);
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
+        driver.get("http://localhost:9999");
     }
 
     @AfterEach
@@ -46,8 +47,6 @@ public class CallbackTest {
 
     @Test
     void shouldTestHappyPath() {
-        //running the form at URL
-        driver.get("http://localhost:9999");
         //entering first name
         driver.findElement(cssSelector("[data-test-id=name] input")).sendKeys("Василий Чапаев");
         //entering phone
@@ -57,14 +56,13 @@ public class CallbackTest {
         //clicking sign up
         driver.findElement(By.tagName("button")).click();
         //getting message after the form is submitted
-        String actualText = driver.findElement(cssSelector("[data-test-id]")).getText();
+        String actualText = driver.findElement(cssSelector("[data-test-id=order-success]")).getText();
         //assering to expectations
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", actualText.trim());
     }
 
     @Test
     void shouldWarnIfNameFieldIsEmpty() {
-        driver.get("http://localhost:9999");
         driver.findElement(cssSelector("[data-test-id=name] input")).sendKeys("");
         driver.findElement(cssSelector("[data-test-id=phone] input")).sendKeys("+74956783423");
         driver.findElement(cssSelector("[data-test-id=agreement] .checkbox__box")).click();
@@ -86,7 +84,6 @@ public class CallbackTest {
 
     @Test
     void shouldWarnIfAllFieldsAreEmpty() {
-        driver.get("http://localhost:9999");
         driver.findElement(cssSelector("[data-test-id=name] input")).sendKeys("");
         driver.findElement(cssSelector("[data-test-id=phone] input")).sendKeys("");
         driver.findElement(cssSelector("[data-test-id=agreement] .checkbox__box")).click();
@@ -99,7 +96,6 @@ public class CallbackTest {
 
     @Test
     void shouldWarnIfNameIsInLatin() {
-        driver.get("http://localhost:9999");
         driver.findElement(cssSelector("[data-test-id=name] input")).sendKeys("Vasily");
         driver.findElement(cssSelector("[data-test-id=phone] input")).sendKeys("+74956783423");
         driver.findElement(cssSelector("[data-test-id=agreement] .checkbox__box")).click();
@@ -110,7 +106,6 @@ public class CallbackTest {
 
     @Test
     void shouldWarnIfNameIsWithNumbers() {
-        driver.get("http://localhost:9999");
         driver.findElement(cssSelector("[data-test-id=name] input")).sendKeys("123");
         driver.findElement(cssSelector("[data-test-id=phone] input")).sendKeys("+74956783423");
         driver.findElement(cssSelector("[data-test-id=agreement] .checkbox__box")).click();
@@ -132,7 +127,6 @@ public class CallbackTest {
 
     @Test
     void shouldWarnIfPhoneIsFilledWithLetters() {
-        driver.get("http://localhost:9999");
         driver.findElement(cssSelector("[data-test-id=name] input")).sendKeys("Василий");
         driver.findElement(cssSelector("[data-test-id=phone] input")).sendKeys("Василий");
         driver.findElement(cssSelector("[data-test-id=agreement] .checkbox__box")).click();
@@ -143,12 +137,13 @@ public class CallbackTest {
 
     @Test
     void shouldWarnIfCheckboxIsEmpty() {
-        driver.get("http://localhost:9999");
         driver.findElement(cssSelector("[data-test-id=name] input")).sendKeys("Василий");
         driver.findElement(cssSelector("[data-test-id=phone] input")).sendKeys("+12345678999");
         driver.findElement(cssSelector("button")).click();
-        boolean actual = driver.findElement(cssSelector(".input_invalid .checkbox__box")).isDisplayed();
-        assertTrue(actual);
+        driver.findElement(cssSelector("[data-test-id='agreement'].input_invalid .checkbox__text")).isDisplayed();
+        String colorValue = driver.findElement(cssSelector("[data-test-id='agreement'] .checkbox__text"))
+                .getCssValue("color");
+        assertEquals("rgba(255, 92, 92, 1)", colorValue);
     }
 }
 
